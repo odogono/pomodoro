@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0DB77C4614751C93000F2561 /* getToDoListFromTHL.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 0DB77C4514751C93000F2561 /* getToDoListFromTHL.applescript */; };
+		0DB77C4814751FB0000F2561 /* addTodoToTHL.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 0DB77C4714751FB0000F2561 /* addTodoToTHL.applescript */; };
+		0DB77C49147529D8000F2561 /* addTodoToTHL.applescript in Resources */ = {isa = PBXBuildFile; fileRef = 0DB77C4714751FB0000F2561 /* addTodoToTHL.applescript */; };
+		0DB77C4A147529D8000F2561 /* getToDoListFromTHL.applescript in Resources */ = {isa = PBXBuildFile; fileRef = 0DB77C4514751C93000F2561 /* getToDoListFromTHL.applescript */; };
 		6978DAF6134406F8004B9ABB /* BGHUDAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 698F4733133B72BC00311E34 /* BGHUDAppKit.framework */; };
 		6978DAF7134406FD004B9ABB /* OAuthConsumer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 698F4734133B72BC00311E34 /* OAuthConsumer.framework */; };
 		6978DAF813440701004B9ABB /* ShortcutRecorder.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 698F4735133B72BC00311E34 /* ShortcutRecorder.framework */; };
@@ -225,6 +229,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0DB77C4514751C93000F2561 /* getToDoListFromTHL.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = getToDoListFromTHL.applescript; sourceTree = "<group>"; };
+		0DB77C4714751FB0000F2561 /* addTodoToTHL.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = addTodoToTHL.applescript; sourceTree = "<group>"; };
 		2CCECF681396319200A8608F /* it-IT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "it-IT"; path = "it-IT.lproj/About.xib"; sourceTree = "<group>"; };
 		2CCECF69139631A100A8608F /* it-IT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "it-IT"; path = "it-IT.lproj/Splash.xib"; sourceTree = "<group>"; };
 		2CCECF6A139631AF00A8608F /* it-IT */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "it-IT"; path = "it-IT.lproj/Stats.xib"; sourceTree = "<group>"; };
@@ -491,8 +497,10 @@
 			children = (
 				698F45D1133B5AF900311E34 /* addTodoToOmniFocus.applescript */,
 				698F45D2133B5AF900311E34 /* addTodoToThings.applescript */,
+				0DB77C4714751FB0000F2561 /* addTodoToTHL.applescript */,
 				698F45D3133B5AF900311E34 /* getToDoListFromOmniFocus.applescript */,
 				698F45D4133B5AF900311E34 /* getToDoListFromThings.applescript */,
+				0DB77C4514751C93000F2561 /* getToDoListFromTHL.applescript */,
 				698F45D5133B5AF900311E34 /* insertIntoLoginItems.applescript */,
 				698F45D6133B5AF900311E34 /* removeFromLoginItems.applescript */,
 				698F45D7133B5AF900311E34 /* setStatusToAvailableInAdium.applescript */,
@@ -893,6 +901,7 @@
 		69AE95DA133B4705004DC14D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = iUgol;
 			};
 			buildConfigurationList = 69AE95DD133B4705004DC14D /* Build configuration list for PBXProject "Pomodoro" */;
@@ -980,6 +989,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0DB77C49147529D8000F2561 /* addTodoToTHL.applescript in Resources */,
+				0DB77C4A147529D8000F2561 /* getToDoListFromTHL.applescript in Resources */,
 				69ED63FB133B9F5F003F59BA /* addTodoToOmniFocus.applescript in Resources */,
 				69ED63FC133B9F5F003F59BA /* addTodoToThings.applescript in Resources */,
 				69ED63FD133B9F5F003F59BA /* getToDoListFromOmniFocus.applescript in Resources */,
@@ -1142,6 +1153,8 @@
 				69D17E1B136C0F6300F5D922 /* ExternalInterruptCommand.m in Sources */,
 				69D17E21136C101900F5D922 /* ResumeCommand.m in Sources */,
 				69D17E24136C103800F5D922 /* InternalInterruptCommand.m in Sources */,
+				0DB77C4614751C93000F2561 /* getToDoListFromTHL.applescript in Sources */,
+				0DB77C4814751FB0000F2561 /* addTodoToTHL.applescript in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
