@@ -1,3 +1,5 @@
+// Fix for Lion system voices by pitkali (Piotr Kalinowski)
+// https://github.com/pitkali/pomodoro/commit/bc75c9cce677df83090cd9a728203336d94f26c2#commitcomment-1816580
 // Pomodoro Desktop - Copyright (c) 2009-2011, Ugo Landini (ugol@computer.org)
 // All rights reserved.
 //
@@ -33,45 +35,54 @@
 #pragma mark ---- Voice Combo box delegate/datasource methods ----
 
 - (NSInteger)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
-	return [voices count]; 
+	return [voices count];
 }
 
 - (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)index {
-	NSString *v = [voices objectAtIndex:index]; 
-    return [[NSSpeechSynthesizer attributesForVoice:v] objectForKey:NSVoiceName]; 
+	NSString *v = [voices objectAtIndex:index];
+  return [[NSSpeechSynthesizer attributesForVoice:v] objectForKey:NSVoiceName];
 }
 
 #pragma mark ---- KVO Utility ----
 
+- (void)setVoiceByName:(NSString *)theName {
+  for (NSString *voiceId in voices) {
+    NSString *voiceName = [[NSSpeechSynthesizer attributesForVoice:voiceId] objectForKey:NSVoiceName];
+    if ([voiceName compare:theName] == NSOrderedSame) {
+      [speech setVoice:voiceId];
+      break;
+    }
+  }
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath
-					  ofObject:(id)object
+                      ofObject:(id)object
                         change:(NSDictionary *)change
                        context:(void *)context {
+  
+  if ([keyPath hasSuffix:@"Volume"]) {
+    NSInteger volume = [[change objectForKey:NSKeyValueChangeNewKey] intValue];
+    NSInteger oldVolume = [[change objectForKey:NSKeyValueChangeOldKey] intValue];
     
-    if ([keyPath hasSuffix:@"Volume"]) {
-        NSInteger volume = [[change objectForKey:NSKeyValueChangeNewKey] intValue];
-        NSInteger oldVolume = [[change objectForKey:NSKeyValueChangeOldKey] intValue];
-        
-        if (volume != oldVolume) {
-            float newVolume = volume/100.0;
-            
-            [speech setVolume:newVolume];
-            [speech startSpeakingString:@"Yes"];
-            
-        }
-    } else if ([keyPath hasSuffix:@"Voice"]) {
-        NSString* voice = [[NSString stringWithFormat:@"com.apple.speech.synthesis.voice.%@", _speechVoice] stringByReplacingOccurrencesOfString:@" "withString:@""];
-        [speech setVoice: voice];
-        [speech startSpeakingString:@"Yes"];
+    if (volume != oldVolume) {
+      float newVolume = volume/100.0;
+      
+      [speech setVolume:newVolume];
+      [speech startSpeakingString:@"Yes"];
+      
     }
-    	
+  } else if ([keyPath hasSuffix:@"Voice"]) {
+    [self setVoiceByName:_speechVoice];
+    [speech startSpeakingString:@"Yes"];
+  }
+  
 }
 
 
 #pragma mark ---- Pomodoro notifications methods ----
 
 -(void) pomodoroStarted:(NSNotification*) notification {
-    
+  
 	if (![self checkDefault:@"mute"] && [self checkDefault:@"speechAtStartEnabled"]) {
 		[speech startSpeakingString:[self bindCommonVariables:@"speechStart"]];
 	}
@@ -79,76 +90,76 @@
 }
 
 - (void) interrupted {
-    
-    NSString* interruptTimeString = [[[NSUserDefaults standardUserDefaults] objectForKey:@"interruptTime"] stringValue];
+  
+  NSString* interruptTimeString = [[[NSUserDefaults standardUserDefaults] objectForKey:@"interruptTime"] stringValue];
 	if (![self checkDefault:@"mute"] && [self checkDefault:@"speechAtInterruptEnabled"]) {
 		NSString* speechString = [self bindCommonVariables:@"speechInterrupt"];
 		[speech startSpeakingString: [speechString stringByReplacingOccurrencesOfString:@"$secs" withString:interruptTimeString]];
 	}
-    
+  
 }
 
 -(void) pomodoroExternallyInterrupted:(NSNotification*) notification {
 	
-    [self interrupted];
+  [self interrupted];
 	
 }
 
 -(void) pomodoroInternallyInterrupted:(NSNotification*) notification {
 	
-    [self interrupted];
+  [self interrupted];
 	
 }
 
 -(void) pomodoroInterruptionMaxTimeIsOver:(NSNotification*) notification {
-    
+  
 	if (![self checkDefault:@"mute"] && [self checkDefault:@"speechAtInterruptOverEnabled"]) {
 		[speech startSpeakingString:[self bindCommonVariables:@"speechInterruptOver"]];
-    }
-
+  }
+  
 }
 
 -(void) pomodoroReset:(NSNotification*) notification {
-    
-    if (![self checkDefault:@"mute"] && [self checkDefault:@"speechAtResetEnabled"]) {
+  
+  if (![self checkDefault:@"mute"] && [self checkDefault:@"speechAtResetEnabled"]) {
 		[speech startSpeakingString:[self bindCommonVariables:@"speechReset"]];
-    }
-    
+  }
+  
 }
 
 -(void) pomodoroResumed:(NSNotification*) notification {
-    
-    if (![self checkDefault:@"mute"] && [self checkDefault:@"speechAtResumeEnabled"]) {
+  
+  if (![self checkDefault:@"mute"] && [self checkDefault:@"speechAtResumeEnabled"]) {
 		[speech startSpeakingString:[self bindCommonVariables:@"speechResume"]];
-    }
-
+  }
+  
 }
 
 -(void) breakFinished:(NSNotification*) notification {
-    
+  
 	if (![self checkDefault:@"mute"] && [self checkDefault:@"speechAtBreakFinishedEnabled"]) {
 		[speech startSpeakingString:[self bindCommonVariables:@"speechBreakFinished"]];
-    }
-
+  }
+  
 }
 
 -(void) pomodoroFinished:(NSNotification*) notification {
  	
-    if (![self checkDefault:@"mute"] && [self checkDefault:@"speechAtEndEnabled"]) {
+  if (![self checkDefault:@"mute"] && [self checkDefault:@"speechAtEndEnabled"]) {
 		[speech startSpeakingString:[self bindCommonVariables:@"speechEnd"]];
-    }
-   
+  }
+  
 }
 
 - (void) oncePerSecond:(NSNotification*) notification {
-    
-    NSInteger time = [[notification object] integerValue];
+  
+  NSInteger time = [[notification object] integerValue];
 	
 	NSInteger timePassed = (_initialTime*60) - time;
 	NSString* timePassedString = [NSString stringWithFormat:@"%d", timePassed/60];
 	NSString* timeString = [NSString stringWithFormat:@"%d", time/60];
 	
-	if (timePassed%(60 * _speechEveryTimeMinutes) == 0 && time!=0) {		
+	if (timePassed%(60 * _speechEveryTimeMinutes) == 0 && time!=0) {
 		if (![self checkDefault:@"mute"] && [self checkDefault:@"speechAtEveryEnabled"]) {
 			NSString* msg = [[self bindCommonVariables:@"speechEvery"] stringByReplacingOccurrencesOfString:@"$mins" withString:[[[NSUserDefaults standardUserDefaults] objectForKey:@"speechEveryTimeMinutes"] stringValue]];
 			msg = [msg stringByReplacingOccurrencesOfString:@"$passed" withString:timePassedString];
@@ -161,28 +172,26 @@
 #pragma mark ---- Lifecycle methods ----
 
 - (void)awakeFromNib {
-    
-    [speechEveryCombo addItemWithObjectValue: [NSNumber numberWithInt:2]];
-    [speechEveryCombo addItemWithObjectValue: [NSNumber numberWithInt:5]];
-    [speechEveryCombo addItemWithObjectValue: [NSNumber numberWithInt:10]];
-    voices = [[NSSpeechSynthesizer availableVoices] retain];
-    
-    [speech setVolume:_voiceVolume/100.0];
-
-    NSString* voice = [[NSString stringWithFormat:@"com.apple.speech.synthesis.voice.%@", _speechVoice] stringByReplacingOccurrencesOfString:@" "withString:@""];
-    [speech setVoice: voice];
-    
-    [self registerForAllPomodoroEvents];
-    [self observeUserDefault:@"voiceVolume"];
-    [self observeUserDefault:@"defaultVoice"];
-
+  
+  [speechEveryCombo addItemWithObjectValue: [NSNumber numberWithInt:2]];
+  [speechEveryCombo addItemWithObjectValue: [NSNumber numberWithInt:5]];
+  [speechEveryCombo addItemWithObjectValue: [NSNumber numberWithInt:10]];
+  voices = [[NSSpeechSynthesizer availableVoices] retain];
+  
+  [speech setVolume:_voiceVolume/100.0];
+  [self setVoiceByName:_speechVoice];
+  
+  [self registerForAllPomodoroEvents];
+  [self observeUserDefault:@"voiceVolume"];
+  [self observeUserDefault:@"defaultVoice"];
+  
 }
 
 - (void)dealloc {
-    
-    [voices release];
-    [super dealloc];
-    
+  
+  [voices release];
+  [super dealloc];
+  
 }
 
 @end

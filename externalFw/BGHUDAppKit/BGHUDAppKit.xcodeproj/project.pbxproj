@@ -829,7 +829,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				PRODUCT_NAME = All;
-				"SDKROOT[arch=x86_64]" = macosx10.6;
+				"SDKROOT[arch=x86_64]" = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -858,6 +858,7 @@
 					0xb0000000,
 				);
 				PRODUCT_NAME = BGHUDAppKit;
+				SDKROOT = macosx;
 				SEPARATE_STRIP = YES;
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
@@ -906,7 +907,7 @@
 					0xb0440100,
 				);
 				PRODUCT_NAME = BGHUDAppKit;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 			};
 			name = Debug;
@@ -932,7 +933,7 @@
 					0xb0000000,
 				);
 				PRODUCT_NAME = BGHUDAppKit;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 				SEPARATE_STRIP = YES;
 				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
@@ -948,8 +949,8 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = All;
-				SDKROOT = macosx10.6;
-				"SDKROOT[arch=x86_64]" = macosx10.6;
+				SDKROOT = "";
+				"SDKROOT[arch=x86_64]" = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -969,8 +970,8 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				PRODUCT_NAME = All;
-				SDKROOT = macosx10.6;
-				"SDKROOT[arch=x86_64]" = macosx10.6;
+				SDKROOT = "";
+				"SDKROOT[arch=x86_64]" = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
